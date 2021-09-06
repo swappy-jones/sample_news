@@ -25,8 +25,15 @@ class NewsDetailsFragment:Fragment(R.layout.fragment_news_details) {
             webView.settings.javaScriptEnabled=true
 
             webView.webViewClient = object : WebViewClient() {
+
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    super.onPageFinished(view, url)
+                    binding.loader.visibility=View.GONE
+                }
+
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     url?.let{
+                        binding.loader.visibility=View.VISIBLE
                         view?.loadUrl(url)
                     }
                     return true
@@ -35,4 +42,5 @@ class NewsDetailsFragment:Fragment(R.layout.fragment_news_details) {
             webView.loadDataWithBaseURL(null,args.news.content, "text/html", "UTF-8",null)
         }
     }
+
 }
